@@ -23,3 +23,5 @@ public:
         return res;
     }
 };
+
+// this approach takes O(n) time and O(n) space
