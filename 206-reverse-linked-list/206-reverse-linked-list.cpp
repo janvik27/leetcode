@@ -8,10 +8,35 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+
 class Solution {
 public:
+    void reverse(ListNode* &head, ListNode* curr, ListNode* prev)
+    {
+        if(curr==NULL) //base case
+        {
+            head= prev;
+            return;
+        }
+        
+        ListNode* forward = curr->next;
+        reverse(head,forward,curr);
+        
+        curr->next = prev;
+    }
+    
     ListNode* reverseList(ListNode* head) {
         
+        
+        // RECURSIVE APPROACH
+        ListNode* curr= head;
+        ListNode* prev= NULL;
+        reverse(head,curr,prev);
+        return head;
+        
+        
+        // ITERATIVE APPROACH
+        /*
         // IF THE LIST IS EMPTY OR HAS ONLY 1 NODE
         if(head== NULL || head->next==NULL)
         {
@@ -30,6 +55,6 @@ public:
             curr= forward;
         }
         return prev;
-        
+        */
     }
 };
