@@ -32,48 +32,103 @@ struct Node *start = NULL;
 class Solution
 {
     public:
+    void insertatTail(Node* &tail,Node* curr)
+    {
+        tail->next = curr;
+        tail =curr;
+    }
     //Function to sort a linked list of 0s, 1s and 2s.
     Node* segregate(Node *head) {
+        /*
         
-        int count0 = 0;
-        int count1 = 0;
+        int count0 =0;
+        int count1 =0;
         int count2 =0;
-        Node* temp =head;
+        
+        Node* temp= head;
         while(temp!=NULL)
         {
             if(temp->data == 0)
                 count0++;
-            else if(temp->data == 1)
+            else if(temp->data==1)
                 count1++;
-            else if(temp->data ==2)
+            else
                 count2++;
             temp = temp->next;
-            
         }
         
-        temp = head;
+        temp=head;
         while(temp!=NULL)
         {
-            if(count0 !=0)
+            if(count0!=0)
             {
-                temp->data = 0;
+                temp->data= 0;
                 count0--;
             }
-            else if(count1 !=0)
+            else if(count1!=0)
             {
                 temp->data =1;
                 count1--;
             }
             else if(count2!=0)
             {
-                temp->data = 2;
+                temp->data =2;
                 count2--;
             }
             temp = temp->next;
         }
         return head;
+        */
         
+        // APPROACH 2
         
+        // (1) create dummy nodes
+        Node* zerohead = new Node(-1);
+        Node* onehead = new Node(-1);
+        Node* twohead = new Node(-1);
+        Node* zerotail = zerohead;
+        Node* onetail = onehead;
+        Node* twotail = twohead;
+        
+        Node* curr= head;
+        //created separate lists of 0's, 1's and 2's
+        while(curr!=NULL)
+        {
+            int value= curr->data;
+            
+            if(value==0)
+                insertatTail(zerotail,curr);
+                
+            else if(value==1)
+                insertatTail(onetail,curr);
+                
+            else if(value==2)
+                insertatTail(twotail,curr);
+            
+            curr= curr->next;
+        }
+        
+        // merging the separate lists
+        if(onehead->next !=NULL)  //1's list is non empty
+        {
+            zerotail->next = onehead->next;
+        }
+        else  // 1's list is empty
+        {
+            zerotail->next = twohead->next;
+        }
+        onetail->next = twohead->next;
+        twotail->next = NULL;
+        
+        // SETTING UP THE HEAD
+        head = zerohead->next;
+        
+        //DELETING THE DUMMY NODES
+        delete(zerohead);
+        delete(onehead);
+        delete(twohead);
+        
+        return head;
     }
 };
 
