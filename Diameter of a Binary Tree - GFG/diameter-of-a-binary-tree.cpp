@@ -104,18 +104,58 @@ class Solution {
         
         return max(lheight,rheight)+1;
     }
+    
+    // approach 2: optimised
+    pair<int,int> diameter_fast(Node* root)
+    {
+        if(root==NULL)
+        {
+            pair<int,int> p = make_pair(0,0);
+            return p;
+        }
+        
+        pair<int,int> left = diameter_fast(root->left);
+        pair<int,int> right = diameter_fast(root->right);
+        
+        
+        //in the pair, diameter is the first value and height is the second value
+        int op1 = left.second + right.second +1;
+        
+        int op2 = left.first;
+        int op3 = right.first;
+        
+        pair<int,int> ans;
+        
+        //diameter in first
+        ans.first = max(op1,max(op2,op3));
+        ans.second = max(left.second, right.second)+1;
+        
+        return ans;
+    }
+    
     // Function to return the diameter of a Binary Tree.
     int diameter(Node* root) {
+        
+        // approach 1
+        /*
         if(root==NULL)
             return 0;
-            
+        
+        // diameter can have 2 cases
+        // case 1 : diameter includes the root node
         int op1 = height(root->left)+height(root->right)+1;
         
+        // diameter does not include the root node
         int op2 = diameter(root->left);
         int op3 = diameter(root->right);
         
         int ans = max(op1, max(op2,op3));
         return ans;
+        */
+        
+        // approach 2
+        return diameter_fast(root).first;
+        
     }
 };
 
