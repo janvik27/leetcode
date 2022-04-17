@@ -113,9 +113,43 @@ class Solution{
         return max(lheight,rheight)+1;
     }
     
+    pair<bool,int> isbalanced_fast(Node* root)
+    {
+        // base case
+        if(root==NULL)
+        {
+            pair<bool,int> p = make_pair(true,0);
+            return p;
+        }
+        
+        pair<bool,int> left = isbalanced_fast(root->left);
+        pair<bool,int> right = isbalanced_fast(root->right);
+        
+        bool leftAns = left.first;
+        bool rightAns = right.first;
+        
+        bool diff = abs(left.second-right.second)<=1;
+        
+        pair<bool,int> ans;
+        
+        //setting the height
+        ans.second = max(left.second,right.second)+1;
+        
+        if(leftAns&&rightAns&&diff)
+        {
+            ans.first =true;
+        }
+        else
+            ans.first = false;
+        
+        return ans;
+    }
+    
     //Function to check whether a binary tree is balanced or not.
     bool isBalanced(Node *root)
     {
+        // approach 1
+        /*
         if(root==NULL)
             return true;
         
@@ -128,6 +162,11 @@ class Solution{
             return true;
         else
             return false;
+        */
+        
+        // approach 2
+        return isbalanced_fast(root).first;
+        
     }
 };
 
