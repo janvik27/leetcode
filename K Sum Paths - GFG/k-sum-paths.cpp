@@ -102,30 +102,30 @@ class Solution{
     
     void solve(Node* root,int k,int &count,vector<int> path)
     {
-        //base case
+        // base case
         if(root==NULL)
             return ;
         
+        // initially, adding the root node to path
         path.push_back(root->data);
         
-        //recursive call for left
+        // left recursive call
         solve(root->left,k,count,path);
         
-        //right call
+        //right recursive call
         solve(root->right,k,count,path);
         
-        // check sum of path
-        int size= path.size();
+        // checking the k sum of a path
+        int size = path.size();
         int sum=0;
-        for(int i=size-1;i>=0;i--)
+        for(int i = size-1;i>=0;i--)
         {
-            sum+= path[i];
+            sum += path[i];
+            
             if(sum==k)
                 count++;
         }
         
-        // pop the elements added to path,, while returning
-        path.pop_back();
     }
   
     int sumK(Node *root,int k)
