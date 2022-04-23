@@ -41,6 +41,15 @@ struct Node
 */
 class Solution{
     public:
+    //optimisation
+    void createMap(int in[],map<int,int> &nodeToIndex,int n)
+    {
+        for(int i=0;i<n;i++)
+        {
+            nodeToIndex[in[i]] = i;
+        }
+    }
+    /*
     int search(int in[],int curr,int start,int end)
     {
         for(int i=start;i<=end;i++)
@@ -50,8 +59,9 @@ class Solution{
         }
         return -1;
     }
+    */
     
-    Node* solve(int in[],int pre[],int &index,int start,int end,int size)
+    Node* solve(int in[],int pre[],int &index,int start,int end,int size,map<int,int> &nodeToIndex)
     {
         // base case
         if(index>=size)
@@ -63,12 +73,14 @@ class Solution{
         index++;
         Node* newnode = new Node(curr);
         
-        if(start==end)
-            return newnode;
+        // if(start==end)
+        //     return newnode;
         
-        int pos = search(in,curr,start,end);
-        newnode->left = solve(in,pre,index,start,pos-1,size);
-        newnode->right = solve(in,pre,index,pos+1,end,size);
+        // int pos = search(in,curr,start,end);
+        int pos = nodeToIndex[curr]; //gives the index of curr element from map
+        
+        newnode->left = solve(in,pre,index,start,pos-1,size,nodeToIndex);
+        newnode->right = solve(in,pre,index,pos+1,end,size,nodeToIndex);
         
         return newnode;
     }
@@ -76,7 +88,14 @@ class Solution{
     Node* buildTree(int in[],int pre[], int n)
     {
         int index= 0;
-        Node* ans = solve(in,pre,index,0,n-1,n);
+        
+        //optimisation: using a map to store indexes of inorder elements
+        map<int,int> nodeToIndex; //stores indexes of inorder elements so that,
+        // we dont have to make the function call for search again and again
+        
+        createMap(in,nodeToIndex,n);
+        
+        Node* ans = solve(in,pre,index,0,n-1,n,nodeToIndex);
         return ans;
     }
 };
