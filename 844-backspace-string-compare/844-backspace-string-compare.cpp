@@ -1,10 +1,48 @@
 class Solution {
 public:
-    stack<char>s1;
-    stack<char> s2;
+    bool optimised(string s,string t)
+    {
+        int l1 = s.length();
+        int l2 = t.length();
+        
+        int count1=0,count2=0;
+        string res1="",res2="";
+        
+        for(int i=l1-1;i>=0;i--)
+        {
+            if(s[i]=='#')
+                count1++;
+            else
+            {
+                if(count1>0)
+                    count1--;
+                else
+                    res1+=s[i];
+            }
+        }
+        for(int i=l2-1;i>=0;i--)
+        {
+            if(t[i]=='#')
+                count2++;
+            else
+            {
+                if(count2>0)
+                    count2--;
+                else
+                    res2+=t[i];
+            }
+        }
+        if(res1 == res2)
+            return true;
+        else
+            return false;
+    }
+    
     bool backspaceCompare(string s, string t) {
-        
-        
+        //BRUTE FORCE
+        /*
+        stack<char>s1;
+        stack<char> s2;
         for(int i=0;i < s.length();i++)
         {
             if(s[i]=='#')
@@ -48,5 +86,10 @@ public:
             return false;
         else
             return true;
+        */
+        
+        // OPTIMISED : WITHOUT STACK
+        bool ans = optimised(s,t);
+        return ans;
     }
 };
