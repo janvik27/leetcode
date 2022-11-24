@@ -103,6 +103,8 @@ int main()
 //Function to find the lowest common ancestor in a BST. 
 Node* LCA(Node *root, int n1, int n2)
 {
+    // RECURSIVE WAY 
+    /*
     if(root==NULL)
         return NULL;
     
@@ -116,6 +118,18 @@ Node* LCA(Node *root, int n1, int n2)
         
     //  case 3 : 
     return root;
+    */
+    
+    // ITERATIVE WAY
+    while(root!=NULL)
+    {
+        if(root->data < n1 && root->data<n2)
+            root= root->right;
+        else if (root->data> n1 && root->data>n2)
+            root= root->left;
+        else
+            return root;
+    }
 }
 
 
