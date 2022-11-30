@@ -46,8 +46,13 @@ class Solution
 {
     public:
     //Function to check if the linked list has a loop.
+    
+    
+    
     bool detectLoop(Node* head)
     {
+        // FLOYD-CYCLE DETECTION
+        /*
         Node* fast = head->next;
         Node* slow = head;
         
@@ -65,7 +70,41 @@ class Solution
             return true;
         if(fast==NULL)
             return false;
+        */
+        
+        // APPROACH USING HASHING
+        /*
+        unordered_set<Node*> us;
+        Node* temp = head;
+        while(temp!=NULL)
+        {
+            if(us.find(temp)!=us.end())
+                return true;
+            us.insert(temp);
+            temp= temp->next;
+        }
+        return false;
+        */
+        
+        // APPROACH USING MAP
+        unordered_map<Node*, bool> visited;
+        Node* temp = head;
+        
+        while(temp!=NULL)
+        {
+            // cycle is present
+            if(visited[temp]==true)
+            {
+                return true;
+            }
+            visited[temp]=true;
+            temp = temp->next;
+        }
+        return false;
     }
+    
+    
+    
 };
 
 
