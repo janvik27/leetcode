@@ -52,25 +52,24 @@ class Solution
     bool detectLoop(Node* head)
     {
         // FLOYD-CYCLE DETECTION
-        /*
-        Node* fast = head->next;
-        Node* slow = head;
         
-        while(fast!=NULL && fast!=slow)
-        {
-            fast=fast->next;
-            if(fast!=NULL)
-            {
-                fast = fast->next;
-            }
-            slow=slow->next;
-        }
-        
-        if(fast==slow)
-            return true;
-        if(fast==NULL)
+        if(head==NULL)
             return false;
-        */
+        
+        Node* slow=head;
+        Node* fast = head;
+        
+        
+        while(fast->next!=NULL && fast->next->next!=NULL)
+        {
+            fast = fast->next->next;
+            slow= slow->next;
+            
+            if(fast==slow)
+                return true;
+        }
+        return false;
+        
         
         // APPROACH USING HASHING
         /*
@@ -87,6 +86,7 @@ class Solution
         */
         
         // APPROACH USING MAP
+        /*
         unordered_map<Node*, bool> visited;
         Node* temp = head;
         
@@ -101,6 +101,7 @@ class Solution
             temp = temp->next;
         }
         return false;
+        */
     }
     
     
