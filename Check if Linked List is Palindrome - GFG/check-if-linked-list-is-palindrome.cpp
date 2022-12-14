@@ -28,38 +28,66 @@ struct Node {
   }
 };
 */
-#include <vector>
+
 class Solution{
   public:
-    bool checkPall(vector<int> arr)
+    Node* findmid(Node* head)
     {
-      int n=arr.size();
-      int i=0;
-      int j=n-1;
-      while(i<=j)
-      {
-        if(arr[i]!=arr[j])
-            return false;
-        i++;
-        j--;
-      }
-      return true;
+        Node* slow=head;
+        Node* fast=head->next;
+        while(fast!=NULL && fast->next!=NULL)
+        {
+            fast=fast->next->next;
+            slow=slow->next;
+        }
+        return slow;
     }
-    //Function to check whether the list is palindrome.
+    
+    Node* reverse(Node* head)
+    {
+        Node* curr=head;
+        Node* prev=NULL;
+        Node* forward = NULL;
+        
+        while(curr!=NULL)
+        {
+            forward=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=forward;
+        }
+        return prev;
+    }
     bool isPalindrome(Node *head)
     {
-        vector<int> arr;
+        // base case : if linked list has only 1 element
+        if(head->next==NULL)
+            return true;
         
-        Node* temp = head;
-        while(temp!=NULL)
+        // setp 1 : find middle node
+        Node* mid = findmid(head);
+        
+        // step 2 : revers elinked list after middle
+        Node* temp = mid->next;
+        mid->next= reverse(temp);
+        
+        // step 3 : compare both halves
+        Node* head1 = head;
+        Node* head2 = mid->next;
+        while(head2!=NULL)
         {
-            arr.push_back(temp->data);
-            temp=temp->next;
+            if(head1->data != head2->data)
+                return false;
+            
+            head1= head1->next;
+            head2 = head2->next;
         }
         
-        bool ans=checkPall(arr);
-        return ans;
+        // step 4 : repeat step 2
+        temp = mid->next;
+        mid->next = reverse(temp);
         
+        return true;
     }
 };
 
