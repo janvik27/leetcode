@@ -112,6 +112,7 @@ int getIntersectionNode(int d, Node* head1,Node* head2)
         temp1 = temp1->next;
     }
     
+    // NOW, TRAVERSE BOTH THE LISTS UNTIL AN EQUAL NODE IS FOUND
     while(temp1!=NULL && temp2!=NULL)
     {
         if(temp1==temp2)
@@ -130,11 +131,13 @@ int intersectPoint(Node* head1, Node* head2)
     int count2 = getcount(head2);
     int d;
     
+    // MEANS list1 is bigger than the second list, so first we need to traverse the extra nodes in first list
     if(count1>count2)
     {
         d = count1-count2;
         return getIntersectionNode(d,head1,head2);
     }
+    // MEANS list2 is bigger than the first list, so first we need to traverse the extra nodes in second list
     else
     {
         d = count2-count1;
