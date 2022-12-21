@@ -7,6 +7,9 @@ class Solution
 {
 	public:
 	
+	//------------------ SOLUTION USING DFS--------------------------
+	
+	
 	void topsort(int,unordered_map<int,bool>,stack<int>,vector<int>);
 	
 	//Function to return list containing vertices in Topological order. 
