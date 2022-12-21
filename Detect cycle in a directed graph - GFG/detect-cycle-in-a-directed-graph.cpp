@@ -6,6 +6,8 @@ using namespace std;
 class Solution {
   public:
     
+    // ------------ solution using DFS -------------->
+    
     bool isCyclicDFS(int node,unordered_map<int,bool> &visited,unordered_map<int,bool> &dfsVisited,vector<int> adj[])
     {
         visited[node]=true;
