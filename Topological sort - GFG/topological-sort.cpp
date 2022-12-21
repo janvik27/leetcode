@@ -7,20 +7,7 @@ class Solution
 {
 	public:
 	
-	void topsort(int node,unordered_map<int,bool> &visited,stack<int> &s,vector<int> adj[])
-	{
-	    visited[node]=true;
-	    
-	    for(auto it:adj[node])
-	    {
-	        if(!visited[it])
-	            topsort(it,visited,s,adj);
-	    }
-	    
-	    // while returning, push that node in stack
-	    s.push(node);
-	    return;
-	}
+	void topsort(int,unordered_map<int,bool>,stack<int>,vector<int>);
 	
 	//Function to return list containing vertices in Topological order. 
 	vector<int> topoSort(int V, vector<int> adj[]) 
@@ -46,6 +33,20 @@ class Solution
 	    }
 	    return ans;
 	    
+	}
+	void topsort(int node,unordered_map<int,bool> &visited,stack<int> &s,vector<int> adj[])
+	{
+	    visited[node]=true;
+	    
+	    for(auto it:adj[node])
+	    {
+	        if(!visited[it])
+	            topsort(it,visited,s,adj);
+	    }
+	    
+	    // while returning, push that node in stack
+	    s.push(node);
+	    return;
 	}
 };
 
