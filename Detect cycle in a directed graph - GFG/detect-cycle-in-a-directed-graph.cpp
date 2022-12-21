@@ -6,45 +6,55 @@ using namespace std;
 class Solution {
   public:
     
-    // ------------ solution using DFS -------------->
-    
-    bool isCyclicDFS(int node,unordered_map<int,bool> &visited,unordered_map<int,bool> &dfsVisited,vector<int> adj[])
-    {
-        visited[node]=true;
-        dfsVisited[node]=true;
-        
-        for(auto it: adj[node])
-        {
-            if(!visited[it])
-            {
-                bool cycleDetected = isCyclicDFS(it,visited,dfsVisited,adj);
-                if(cycleDetected)
-                    return true;
-            }
-            else if(dfsVisited[it]==true && visited[it]==true)
-                return true;
-        }
-        
-        dfsVisited[node]=false;
-        
-        return false;
-    }
-    
+    // ------------- solution using BFS - KAHN'S ALGORITHM
+  
     // Function to detect cycle in a directed graph.
     bool isCyclic(int V, vector<int> adj[]) {
-        unordered_map<int,bool> visited;
-        unordered_map<int,bool> dfsVisited;
         
+        // create indegree vector
+        vector<int> indegree(V,0);
         for(int i=0;i<V;i++)
         {
-            if(!visited[i])
+            for(auto j:adj[i])
             {
-                bool ans = isCyclicDFS(i,visited,dfsVisited,adj);
-                if(ans)
-                    return true;
+                indegree[j]++;
             }
         }
-        return false;
+        
+        // push nodes with indegree=0 in queue
+        queue<int> q;
+        for(int i=0;i<V;i++)
+        {
+            if(indegree[i]==0)
+                q.push(i);
+        }
+        
+        // do BFS
+        int count=0;
+        while(!q.empty())
+        {
+            int front= q.front();
+            q.pop();
+            
+            // inc count
+            count++;
+            
+            // check its neighbours and update their indegrees
+            for(auto neighbour : adj[front])
+            {
+                indegree[neighbour]--;
+                if(indegree[neighbour]==0)
+                    q.push(neighbour);
+            }
+        }
+        
+        if(count==V)
+        {
+            // means topological sort is valid and no cycle present (acyclic graph)
+            return false;
+        }
+        else
+            return true;
     }
 };
 
